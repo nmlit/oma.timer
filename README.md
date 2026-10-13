@@ -5,6 +5,12 @@ När tiden är ute kommer en signal: ljud (upprepas tills du kvitterar, max 6 g�
 
 ## Installation
 
+### Installera från GitHub
+
+```bash
+omarchy plugin add https://github.com/nmlit/oma.timer.git --enable
+```
+
 ```bash
 git clone https://github.com/nmlit/oma.timer
 mkdir -p ~/.config/omarchy/plugins/oma.timer
