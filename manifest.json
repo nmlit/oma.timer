@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "oma.timer",
   "name": "Timer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "nmlit",
   "license": "MIT",
   "description": "Nedräkningstimer i Omarchy-baren med egen tid och signal när den är slut.",

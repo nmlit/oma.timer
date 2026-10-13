@@ -1,7 +1,7 @@
 # oma.timer
 
 Nedräkningstimer för Omarchy-baren. Du ställer in tiden själv, ingen tidtagning/stoppur.
-När tiden är ute kommer en signal: ljud (spelas 3 gånger), en notis och ikonen blinkar i baren tills du kvitterar.
+När tiden är ute kommer en signal: ljud (upprepas tills du kvitterar, max 6 gånger), en notis och ikonen blinkar i baren tills du kvitterar. Klicka på notisen eller "Kvittera" i panelen så tystnar ljudet direkt.
 
 ## Installation
 

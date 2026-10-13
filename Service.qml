@@ -45,7 +45,15 @@ Item {
     running = false
     pausedRemaining = -1
     finished = false
+    stopSignal()
+  }
+
+  // Stoppar ljudet och stänger väntande notis direkt.
+  function stopSignal() {
+    if (soundProc.running) soundProc.signal(15)
     soundProc.running = false
+    if (notifyProc.running) notifyProc.signal(15)
+    notifyProc.running = false
   }
 
   // Tid kan bara ändras när timern är stoppad; en igång timer behåller sin deadline.
@@ -75,12 +83,16 @@ Item {
     pausedRemaining = -1
     finished = true
     notifyProc.command = [
-      "notify-send", "-a", "oma.timer", "-u", "critical", "-i", "alarm-symbolic",
+      "notify-send", "-a", "oma.timer", "--wait",
+      "--action=default=Kvittera", "--action=dismiss=Kvittera", "-u", "critical", "-i", "alarm-symbolic",
       "⏰ Tiden är ute!", "Timern på " + Format.label(root.duration) + " är slut."
     ]
     notifyProc.running = true
+    // Spelaren körs i bakgrunden och dödas via trap när processen avslutas,
+    // så ljudet tystnar direkt vid Kvittera / klick på notisen.
     soundProc.command = ["sh", "-c",
-      "for i in 1 2 3; do pw-play '" + root.soundFile + "' 2>/dev/null || paplay '" + root.soundFile + "'; done"]
+      "f='" + root.soundFile + "'; p=; trap 'kill $p 2>/dev/null; exit 0' TERM INT HUP; " +
+      "for i in 1 2 3 4 5 6; do if command -v pw-play >/dev/null; then pw-play \"$f\" & else paplay \"$f\" & fi; p=$!; wait $p; done"]
     soundProc.running = true
   }
 
@@ -95,7 +107,11 @@ Item {
     }
   }
 
-  Process { id: notifyProc }
+  // notify-send --wait avslutas när notisen klickas eller stängs: kvittera då.
+  Process {
+    id: notifyProc
+    onExited: if (root.finished) root.reset()
+  }
   Process { id: soundProc }
 
   // omarchy-shell -q oma.timer toggle     öppna / stäng panelen
