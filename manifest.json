@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "oma.timer",
+  "name": "Timer",
+  "version": "1.0.0",
+  "author": "nmlit",
+  "license": "MIT",
+  "description": "Nedräkningstimer i Omarchy-baren med egen tid och signal när den är slut.",
+  "kinds": ["service", "bar-widget"],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Timer",
+    "description": "Nedräkningstimer. Vänsterklick öppnar panelen, högerklick start/paus, mittenklick nollställ.",
+    "category": "Info",
+    "defaultSection": "right",
+    "allowMultiple": false
+  }
+}
