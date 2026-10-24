@@ -102,7 +102,7 @@ Panel {
         blocked: input.activeFocus
         onCloseRequested: root.close()
         onActivateRequested: if (root.timer) root.timer.toggle()
-        onDeleteRequested: if (root.timer) root.timer.reset()
+        onDeleteRequested: if (root.timer) root.timer.clear()
         onMoveRequested: function(dx, dy) {
           if (!root.timer) return
           if (dx !== 0) root.timer.adjust(dx * 10)   // h/l: ±10 s
@@ -110,7 +110,7 @@ Panel {
         }
         onTextKey: function(text) {
           if (!root.timer) return
-          if (text === "r") root.timer.reset()
+          if (text === "r") root.timer.clear()
           else if (text === "e" || text === "i") input.forceActiveFocus()
         }
 
@@ -167,7 +167,7 @@ Panel {
             Button { text: "+1m";  foreground: root.fg; fontSize: Style.font.bodySmall; onClicked: root.timer.adjust(60) }
           }
 
-          // Snabbval i minuter.
+          // Snabbval i minuter: varje klick lägger till tid (2×60m + 10m + 5m = 2:15:00).
           Flow {
             width: parent.width
             spacing: Style.space(4)
@@ -178,11 +178,10 @@ Panel {
               model: root.presets
               Button {
                 required property int modelData
-                text: modelData + "m"
-                selected: root.timer ? Math.round(root.timer.duration / 1000) === modelData * 60 : false
+                text: "+" + modelData + "m"
                 foreground: root.fg
                 fontSize: Style.font.bodySmall
-                onClicked: if (root.timer) root.timer.setSeconds(modelData * 60)
+                onClicked: if (root.timer) root.timer.add(modelData * 60)
               }
             }
           }
@@ -244,10 +243,10 @@ Panel {
               width: Style.space(110)
               bordered: true
               text: "Nollställ"
-              enabled: root.active
+              enabled: root.active || (root.timer ? root.timer.duration > 0 : false)
               opacity: enabled ? 1 : 0.4
               foreground: root.fg
-              onClicked: if (root.timer) root.timer.reset()
+              onClicked: if (root.timer) root.timer.clear()
             }
           }
 

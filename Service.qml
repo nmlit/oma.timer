@@ -16,7 +16,8 @@ Item {
 
   property double now: Date.now()
 
-  property double duration: 5 * 60000
+  // Startar på 0; snabbvalen i panelen lägger till tid.
+  property double duration: 0
   property bool running: false
   property double endsAt: 0
   property double pausedRemaining: -1
@@ -35,6 +36,7 @@ Item {
       pausedRemaining = Math.max(0, endsAt - now)
       running = false
     } else {
+      if (pausedRemaining < 0 && duration <= 0) return
       endsAt = now + (pausedRemaining >= 0 ? pausedRemaining : duration)
       pausedRemaining = -1
       running = true
@@ -48,6 +50,13 @@ Item {
     stopSignal()
   }
 
+  // Nollställ: avbryter en igång/pausad/slutförd timer. Är timern redan
+  // stoppad nollställs den inställda tiden till 0.
+  function clear() {
+    if (active) reset()
+    else duration = 0
+  }
+
   // Stoppar ljudet och stänger väntande notis direkt.
   function stopSignal() {
     if (soundProc.running) soundProc.signal(15)
@@ -59,7 +68,12 @@ Item {
   // Tid kan bara ändras när timern är stoppad; en igång timer behåller sin deadline.
   function setSeconds(seconds) {
     if (active) return
-    duration = Math.max(1, Math.min(24 * 3600, Math.round(seconds))) * 1000
+    duration = Math.max(0, Math.min(24 * 3600, Math.round(seconds))) * 1000
+  }
+
+  // Snabbval: lägger till tid på den inställda tiden (max 24 h).
+  function add(seconds) {
+    setSeconds(Math.round(duration / 1000) + seconds)
   }
 
   function adjust(deltaSeconds) {

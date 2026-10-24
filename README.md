@@ -25,6 +25,10 @@ omarchy-restart-shell
 - **Högerklick**: start / paus. **Mittenklick**: nollställ.
 - I panelen: snabbval (1–60 min), −1m/−10s/+10s/+1m, scrollhjul på siffrorna (±1 min),
   eller skriv en egen tid i fältet och tryck Enter: `25` (minuter), `7:30`, `1:15:00`, `1h30m`, `90s`.
+- Snabbvalen (+1m, +3m, +5m, +10m, +15m, +25m, +45m, +60m) **lägger till** tid på den inställda tiden,
+  så du kan klicka flera gånger: t.ex. 2 × 60m + 10m + 5m = 135 minuter (2:15:00). Max 24 timmar.
+  Timern börjar på 00:00. **Nollställ** (eller `r`) när timern är stoppad sätter tiden till 0 igen;
+  när den går/är pausad avbryter Nollställ nedräkningen och behåller den inställda tiden.
 - Tangenter: mellanslag start/paus · r nollställ · j/k ±1 min · h/l ±10 s · e egen tid · Esc stäng.
 
 ## Kommandon (IPC)
