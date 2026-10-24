@@ -154,11 +154,12 @@ Panel {
             }
           }
 
-          // Justera tiden: −/+ minuter och sekunder.
+          // Justera tiden: −/+ minuter och sekunder. Fungerar även medan
+          // timern räknar ner (ändrar kvarvarande tid live).
           Row {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Style.space(4)
-            enabled: root.timer ? !root.timer.active : false
+            enabled: root.timer ? !root.timer.finished : false
             opacity: enabled ? 1 : 0.4
 
             Button { text: "−1m";  foreground: root.fg; fontSize: Style.font.bodySmall; onClicked: root.timer.adjust(-60) }
@@ -167,11 +168,12 @@ Panel {
             Button { text: "+1m";  foreground: root.fg; fontSize: Style.font.bodySmall; onClicked: root.timer.adjust(60) }
           }
 
-          // Snabbval i minuter: varje klick lägger till tid (2×60m + 10m + 5m = 2:15:00).
+          // Snabbval i minuter: varje klick lägger till tid (2×60m + 10m + 5m = 2:15:00),
+          // även medan timern räknar ner.
           Flow {
             width: parent.width
             spacing: Style.space(4)
-            enabled: root.timer ? !root.timer.active : false
+            enabled: root.timer ? !root.timer.finished : false
             opacity: enabled ? 1 : 0.4
 
             Repeater {

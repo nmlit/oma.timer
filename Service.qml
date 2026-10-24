@@ -65,19 +65,37 @@ Item {
     notifyProc.running = false
   }
 
-  // Tid kan bara ändras när timern är stoppad; en igång timer behåller sin deadline.
+  readonly property double maxMs: 24 * 3600 * 1000
+
+  // Sätter den inställda tiden när timern är stoppad (igång/pausad: se adjust).
   function setSeconds(seconds) {
     if (active) return
     duration = Math.max(0, Math.min(24 * 3600, Math.round(seconds))) * 1000
   }
 
-  // Snabbval: lägger till tid på den inställda tiden (max 24 h).
-  function add(seconds) {
-    setSeconds(Math.round(duration / 1000) + seconds)
+  // Ändrar tiden med deltaSeconds. Stoppad: ändrar den inställda tiden.
+  // Igång eller pausad: flyttar sluttiden live utan att nedräkningen stannar
+  // eller nollställs. Kvarvarande tid hålls inom 0–24 h; når den 0 slår
+  // timern som vanligt. Den totala tiden (duration) följer med.
+  function adjust(deltaSeconds) {
+    if (finished) return
+    if (!active) {
+      setSeconds(Math.round(duration / 1000) + deltaSeconds)
+      return
+    }
+    now = Date.now()
+    var left = running ? Math.max(0, endsAt - now) : pausedRemaining
+    var next = Math.max(0, Math.min(maxMs, left + deltaSeconds * 1000))
+    var applied = next - left
+    duration = Math.max(0, Math.min(maxMs, duration + applied))
+    if (running) endsAt = now + next
+    else pausedRemaining = next
+    if (next <= 0) finish()
   }
 
-  function adjust(deltaSeconds) {
-    setSeconds(Math.round(duration / 1000) + deltaSeconds)
+  // Snabbval: lägger till tid (max 24 h), även medan timern räknar ner.
+  function add(seconds) {
+    adjust(seconds)
   }
 
   function setFromText(text) {

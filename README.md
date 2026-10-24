@@ -29,6 +29,11 @@ omarchy-restart-shell
   så du kan klicka flera gånger: t.ex. 2 × 60m + 10m + 5m = 135 minuter (2:15:00). Max 24 timmar.
   Timern börjar på 00:00. **Nollställ** (eller `r`) när timern är stoppad sätter tiden till 0 igen;
   när den går/är pausad avbryter Nollställ nedräkningen och behåller den inställda tiden.
+- **Ändra tiden medan timern går (1.0.3):** snabbvalen (+1m … +60m), −1m/−10s/+10s/+1m,
+  j/k, h/l och scrollhjulet fungerar även när timern räknar ner eller är pausad. Tiden läggs till
+  (eller dras av) på den kvarvarande tiden direkt, utan att nedräkningen stannar eller nollställs.
+  Minus kan som lägst ta ner kvarvarande tid till 0 – då slår timern som vanligt (ljud + notis).
+  Max 24 timmar kvar. När timern har slagit måste du kvittera innan du kan ställa in ny tid.
 - Tangenter: mellanslag start/paus · r nollställ · j/k ±1 min · h/l ±10 s · e egen tid · Esc stäng.
 
 ## Kommandon (IPC)
