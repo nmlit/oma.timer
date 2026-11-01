@@ -46,7 +46,7 @@ omarchy-shell -q oma.timer reset       # nollställ
 omarchy-shell -q oma.timer toggle      # öppna / stäng panelen
 ```
 
-Ljud: `/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga` (paketet `sound-theme-freedesktop`), spelas med `pw-play`/`paplay`.
+Ljud: `omatimer.ogg` i pluginmappen, spelas med `pw-play`/`paplay`.
 
 Inspirerad av [Tick](https://github.com/ivanvan08) av ivanvan08.
 

@@ -12,7 +12,7 @@ Item {
   readonly property string pluginId: "oma.timer"
   readonly property string timerGlyph: "\u{f051f}"
   readonly property string idleGlyph: "\u{f051b}"
-  readonly property string soundFile: "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
+  readonly property string soundFile: Qt.resolvedUrl("omatimer.ogg").toString().replace("file://", "")
 
   property double now: Date.now()
 
