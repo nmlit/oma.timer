@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.Commons
 import qs.Ui
 import "Format.js" as Format
@@ -38,6 +39,13 @@ Panel {
     } else {
       input.invalid = true
     }
+  }
+
+  // Stäng när man klickar utanför kortet
+  HyprlandFocusGrab {
+    windows: [win]
+    active: root.opened
+    onCleared: root.close()
   }
 
   PanelWindow {
