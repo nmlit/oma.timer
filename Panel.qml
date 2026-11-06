@@ -55,7 +55,11 @@ Panel {
     readonly property string barPos: root.bar ? root.bar.position : "top"
     readonly property bool sideBar: barPos === "left" || barPos === "right"
     readonly property real gap: Style.gapsOut
-    readonly property real barThickness: anchorWindow ? (sideBar ? anchorWindow.width : anchorWindow.height) : 0
+    // Omarchy 4.5+: bar window spans the whole screen; use strip size, not window size.
+    readonly property real barThickness: !root.bar ? 0
+      : (typeof root.bar.barSizeFor === "function" && screen
+          ? root.bar.barSizeFor(screen.name)
+          : root.bar.barSize)
     readonly property real anchorOffset: {
       if (!root.opened || !root.anchorItem || !anchorWindow) return 0
       var p = root.anchorItem.mapToItem(anchorWindow.contentItem, 0, 0)
